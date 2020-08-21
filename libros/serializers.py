@@ -11,7 +11,7 @@ class AutorSerializer(serializers.ModelSerializer):
       autor = Autor.objects.create(
           nombre=validated_data['nombre'],
           apellido=validated_data['apellido'],
-          edad=validated_data['edad'],
+          edad=validated_data.get('edad', None),
       )
       autor.save()
 

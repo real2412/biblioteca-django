@@ -73,6 +73,36 @@ TEMPLATES = [
 WSGI_APPLICATION = 'sistema_biblioteca.wsgi.application'
 
 
+REST_FRAMEWORK = {
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+         #'rest_framework.renderers.BrowsableAPIRenderer',
+         #'rest_framework_csv.renderers.CSVRenderer',
+    #),
+    #'DEFAULT_PERMISSION_CLASSES': (
+    #    'rest_framework.permissions.IsAuthenticated',
+    #),
+    #  'DEFAULT_AUTHENTICATION_CLASSES': (
+    #    'rest_framework.authentication.BasicAuthentication',
+    #),
+    'DEFAULT_AUTHENTICATION_CLASSES': [  
+     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],  
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,
+    #'DEFAULT_THROTTLE_CLASSES':(
+    #    'rest_framework.throttling.AnonRateThrottle',
+    #),
+
+    #'DEFAULT_FILTER_BACKENDS': (
+    #    'rest_framework_filters.backends.DjangoFilterBackend',
+    #    #'url_filter.integrations.drf.DjangoFilterBackend',
+    #),
+    #'DEFAULT_THROTTLE_RATES':{
+    #    'anon':'200000/hour'
+    #}
+}
+
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 

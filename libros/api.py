@@ -8,6 +8,7 @@ from rest_framework.generics import (
 )
 from rest_framework.views import APIView
 from rest_framework import authentication, permissions, status
+from rest_framework.permissions import IsAuthenticated, SAFE_METHODS, BasePermission
 #from rest_framework.pagination import PageNumberPagination
 #from rest_framework.response import Response
 from django.db.models import Q, Count, F, Value, IntegerField
@@ -28,13 +29,18 @@ from .serializers import (
 #from rest_framework.exceptions import NotFound
 #import datetime
 
+class ReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        return request.method in SAFE_METHODS
+
 class CategoriaList(ListAPIView):
   queryset = Categoria.objects.all()
   serializer_class = CategoriaSerializer
-
+  #  authentication_classes = [IsAuthenticated] )
 
 class AutorListCreate(ListCreateAPIView):
   #queryset = Autor.objects.all()
+  permission_classes = [IsAuthenticated|ReadOnly]
   serializer_class = AutorSerializer
   def get_queryset(self):
         return Autor.objects.all().order_by('apellido')
@@ -46,6 +52,7 @@ class AutorRetrieve(RetrieveAPIView):
 
 class LibroListCreate(ListCreateAPIView):
   #queryset = Libro.objects.all()
+  permission_classes = [IsAuthenticated|ReadOnly]
   serializer_class = LibroSerializer
   def get_queryset(self):
         queryNombre = self.request.query_params.get('nombre', '')
@@ -56,6 +63,7 @@ class LibroListCreate(ListCreateAPIView):
         #Q(nom__icontains=querySearch)|Q(desc__icontains=querySearch)
 
 class LibroRetrieve(RetrieveUpdateDestroyAPIView):
+  permission_classes = [IsAuthenticated|ReadOnly]
   queryset = Libro.objects.all()
   serializer_class = LibroRetrieveSerializer
   lookup_field = 'id'
